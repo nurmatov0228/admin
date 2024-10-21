@@ -22,7 +22,9 @@ const Navbar = () => {
 
   const handleLogOut = () => {
     localStorage.removeItem("token");
-    toast.warning("You are logged out");
+    toast.warning("You are logged out", {
+      autoClose: 1700,
+    });
     navigate("/");
   };
 
