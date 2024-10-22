@@ -37,10 +37,15 @@ const Login = () => {
           toast.success("Welcome Admin", {
             autoClose: 1700,
           });
-          setTimeout(() => {
-            setLoading(false);
-            navigate("/home");
-          }, 1000);
+        })
+        .finally((data) => {
+          setLoading(false);
+          navigate("/home");
+        })
+        .catch((elem) => {
+          toast.error("Error in sending", {
+            autoClose: 1700,
+          });
         });
     } else {
       setLoading(false);
