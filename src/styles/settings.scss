@@ -1,0 +1,99 @@
+.settings {
+  padding: 50px 40px;
+  background-color: #e9f1fe;
+  min-height: 85vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  &-loader {
+    margin: 50px auto;
+    width: 100%;
+    div {
+      height: 100%;
+
+      span {
+        position: relative;
+        left: 130%;
+      }
+    }
+  }
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    h2 {
+      margin: 0;
+    }
+
+    .add-btn {
+      background-color: #0d6efd;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #084298;
+      }
+    }
+  }
+
+  &-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  &-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+
+    thead {
+      background-color: #fafafa;
+    }
+
+    th,
+    td {
+      padding: 12px;
+      border: 1px solid #dee2e6;
+      text-align: center;
+    }
+
+    img {
+      width: 100px;
+      height: auto;
+      max-height: 72.85px;
+    }
+
+    .edit-btn,
+    .delete-btn {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &.edit-btn {
+        background-color: #0d6efd;
+        color: white;
+
+        &:hover {
+          background-color: #084298;
+        }
+      }
+
+      &.delete-btn {
+        background-color: #f83c4f;
+        color: white;
+
+        &:hover {
+          background-color: #c32f3e;
+        }
+      }
+    }
+  }
+}
