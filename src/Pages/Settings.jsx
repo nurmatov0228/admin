@@ -231,7 +231,7 @@ const Settings = () => {
                 Upload Image:
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/*, .png/*, .jpg/*, .jpeg/*"
                   onChange={(e) => setUploadImage(e.target.files[0])}
                 />
               </label>
@@ -279,6 +279,7 @@ const Settings = () => {
                 Upload Image:
                 <input
                   type="file"
+                  accept="image/*, .png/*, .jpg/*, .jpeg/*"
                   onChange={(e) => setUploadImage(e.target.files[0])}
                 />
               </label>
