@@ -15,6 +15,10 @@ const Settings = () => {
   const [uploadImage, setUploadImage] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 5; // Sahifada ko'rsatiladigan elementlar soni
+
   // Fetch categories
   async function GetCatigoriesAPI() {
     try {
@@ -145,6 +149,12 @@ const Settings = () => {
     }
   };
 
+  // Pagination logic
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = categories.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(categories.length / itemsPerPage);
+
   return (
     <div className="settings">
       <div className="settings-header">
@@ -163,8 +173,8 @@ const Settings = () => {
           </tr>
         </thead>
         <tbody>
-          {categories?.length ? (
-            categories?.map((elem) => (
+          {currentItems.length ? (
+            currentItems.map((elem) => (
               <tr key={elem.id}>
                 <td>{elem?.name_en}</td>
                 <td>{elem?.name_ru}</td>
@@ -193,12 +203,43 @@ const Settings = () => {
               </tr>
             ))
           ) : (
-            <div className="settings-loader">
-              <Loader />
-            </div>
+            <tr>
+              <td colSpan="4">
+                <div className="settings-loader">
+                  <Loader />
+                </div>
+              </td>
+            </tr>
           )}
         </tbody>
       </table>
+
+      {/* Pagination */}
+      <div className="pagination">
+        <button
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+        >
+          &laquo; Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => setCurrentPage(i + 1)}
+            className={currentPage === i + 1 ? "active" : ""}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={() =>
+            setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+          }
+          disabled={currentPage === totalPages}
+        >
+          Next &raquo;
+        </button>
+      </div>
 
       {/* Add Modal */}
       {isModalOpen && (
