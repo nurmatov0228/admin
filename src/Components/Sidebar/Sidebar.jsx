@@ -30,7 +30,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
             <li>
-              <NavLink to="/settings" activeClassName="active">
+              <NavLink to="/categories" activeClassName="active">
                 <IoSettingsOutline />
                 Settings
               </NavLink>
