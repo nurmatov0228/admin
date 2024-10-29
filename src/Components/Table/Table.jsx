@@ -247,7 +247,7 @@ const Table = () => {
       case "/models":
         return (
           <>
-            <th>Name</th>
+            <th>Model</th>
             <th>Brand</th>
             <th>Action</th>
           </>
@@ -282,6 +282,7 @@ const Table = () => {
   };
 
   const Tbody = (elem) => {
+    console.log(elem);
     switch (location) {
       case "/categories":
         return (
@@ -315,9 +316,10 @@ const Table = () => {
         return (
           <>
             <td>{elem?.elem?.name}</td>
-            <td>{elem?.elem?.brand_id}</td>
+            <td>{elem?.elem?.brand_title}</td>
           </>
         );
+
         break;
 
       case "/cities":
