@@ -21,6 +21,7 @@ const Table = () => {
   const [uploadImage, setUploadImage] = useState(null);
   const [selectedBase, setSelectedBase] = useState(null);
   const location = useLocation()?.pathname;
+  const [brands, setBrands] = useState([]);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
@@ -40,8 +41,24 @@ const Table = () => {
     }
   }
 
+  async function GetBrandsAPI() {
+    try {
+      const response = await axios.get(
+        `https://autoapi.dezinfeksiyatashkent.uz/api/brands`
+      );
+      if (response.data?.success) {
+        setBrands(response.data.data);
+      } else {
+        toast.warning("No data", { autoClose: 1500 });
+      }
+    } catch (error) {
+      toast.error("Failed to fetch categories", { autoClose: 1500 });
+    }
+  }
+
   useEffect(() => {
     GetCatigoriesAPI();
+    GetBrandsAPI();
   }, []);
 
   async function DeleteCatigories(ItemID) {
@@ -282,7 +299,6 @@ const Table = () => {
   };
 
   const Tbody = (elem) => {
-    console.log(elem);
     switch (location) {
       case "/categories":
         return (
@@ -311,7 +327,6 @@ const Table = () => {
           </>
         );
         break;
-
       case "/models":
         return (
           <>
@@ -501,7 +516,18 @@ const Table = () => {
                       onChange={(e) => setModelsName(e.target.value)}
                     />
                   </label>
-                  <label>Brand Name: Modals brands name</label>
+                  <label>
+                    Brand Name:
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setModelsBrandID(e.target.value)}
+                    >
+                      {brands.map((elem) => (
+                        <option value={elem?.id}>{elem?.title}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
                 </>
               ) : location === "/cities" ? (
                 <>
@@ -637,7 +663,18 @@ const Table = () => {
                       onChange={(e) => setModelsName(e.target.value)}
                     />
                   </label>
-                  <label>Brand Name: Modals brands name</label>
+                  <label>
+                    Brand Name:
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setModelsBrandID(e.target.value)}
+                    >
+                      {brands.map((elem) => (
+                        <option value={elem?.id}>{elem?.title}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
                 </>
               ) : location === "/cities" ? (
                 <>
