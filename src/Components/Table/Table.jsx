@@ -97,6 +97,9 @@ const Table = () => {
     } else if (location === "/cities") {
       setCitiesName(category?.name);
       setCitiesText(category?.text);
+    } else if (location === "/locations") {
+      setCitiesName(category?.name);
+      setCitiesText(category?.text);
     }
 
     setIsEditModalOpen(true);
@@ -111,6 +114,8 @@ const Table = () => {
         : location === "/models"
         ? !modelsName || !modelsBrandId
         : location === "/cities"
+        ? !citiesName || !citiesText || !uploadImage
+        : location === "/locations"
         ? !citiesName || !citiesText || !uploadImage
         : null
     ) {
@@ -130,6 +135,10 @@ const Table = () => {
       formData.append("name", modelsName);
       formData.append("brand_id", modelsBrandId);
     } else if (location === "/cities") {
+      formData.append("name", citiesName);
+      formData.append("text", citiesText);
+      formData.append("images", uploadImage);
+    } else if (location === "/locations") {
       formData.append("name", citiesName);
       formData.append("text", citiesText);
       formData.append("images", uploadImage);
@@ -165,6 +174,8 @@ const Table = () => {
         ? !modelsName || !modelsBrandId
         : location === "/cities"
         ? !citiesName || !citiesText
+        : location === "/locations"
+        ? !citiesName || !citiesText
         : null
     ) {
       toast.error("Name fields are required!", { autoClose: 1500 });
@@ -181,6 +192,9 @@ const Table = () => {
       formData.append("name", modelsName);
       formData.append("brand_id", modelsBrandId);
     } else if (location === "/cities") {
+      formData.append("name", citiesName);
+      formData.append("text", citiesText);
+    } else if (location === "/locations") {
       formData.append("name", citiesName);
       formData.append("text", citiesText);
     }
@@ -251,6 +265,17 @@ const Table = () => {
         );
         break;
 
+      case "/locations":
+        return (
+          <>
+            <th>Name</th>
+            <th>Text</th>
+            <th>Image</th>
+            <th>Action</th>
+          </>
+        );
+        break;
+
       default:
         return null;
     }
@@ -308,6 +333,22 @@ const Table = () => {
             </td>
           </>
         );
+        break;
+
+      case "/locations":
+        return (
+          <>
+            <td>{elem?.elem?.name}</td>
+            <td>{elem?.elem?.text}</td>
+            <td>
+              <img
+                src={`https://autoapi.dezinfeksiyatashkent.uz/api/uploads/images/${elem?.elem?.image_src}`}
+                alt={elem?.elem?.name_en}
+              />
+            </td>
+          </>
+        );
+        break;
 
       default:
         return null;
@@ -487,6 +528,33 @@ const Table = () => {
                     />
                   </label>
                 </>
+              ) : location === "/locations" ? (
+                <>
+                  <label>
+                    Name:
+                    <input
+                      type="text"
+                      value={citiesName}
+                      onChange={(e) => setCitiesName(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Text:
+                    <input
+                      type="text"
+                      value={citiesText}
+                      onChange={(e) => setCitiesText(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Upload Image:
+                    <input
+                      type="file"
+                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                      onChange={(e) => setUploadImage(e.target.files[0])}
+                    />
+                  </label>
+                </>
               ) : null}
             </div>
             <div className="modal-footer">
@@ -570,6 +638,33 @@ const Table = () => {
                   <label>Brand Name: Modals brands name</label>
                 </>
               ) : location === "/cities" ? (
+                <>
+                  <label>
+                    Name:
+                    <input
+                      type="text"
+                      value={citiesName}
+                      onChange={(e) => setCitiesName(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Text:
+                    <input
+                      type="text"
+                      value={citiesText}
+                      onChange={(e) => setCitiesText(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Upload Image:
+                    <input
+                      type="file"
+                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                      onChange={(e) => setUploadImage(e.target.files[0])}
+                    />
+                  </label>
+                </>
+              ) : location === "/locations" ? (
                 <>
                   <label>
                     Name:
