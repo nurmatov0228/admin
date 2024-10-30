@@ -293,6 +293,19 @@ const Table = () => {
         );
         break;
 
+      case "/cars":
+        return (
+          <>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Category</th>
+            <th>Color</th>
+            <th>City</th>
+            <th>Action</th>
+          </>
+        );
+        break;
+
       default:
         return null;
     }
@@ -365,6 +378,19 @@ const Table = () => {
             </td>
           </>
         );
+        break;
+
+      case "/cars":
+        return (
+          <>
+            <td>{elem?.elem?.brand?.title}</td>
+            <td>{elem?.elem?.model?.name}</td>
+            <td>{elem?.elem?.category?.name_en}</td>
+            <td>{elem?.elem?.color}</td>
+            <td>{elem?.elem?.city?.name}</td>
+          </>
+        );
+
         break;
 
       default:
