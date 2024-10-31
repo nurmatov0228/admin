@@ -79,6 +79,113 @@ const Table = () => {
     }
   }
 
+  const [getCategories, setGetCategories] = useState([]);
+  const [getBrand, setGetBrand] = useState([]);
+  const [getModel, setGetModel] = useState([]);
+  const [getLocation, setGetLocation] = useState([]);
+  const [getCity, setGetCity] = useState([]);
+  //variables
+  const [brand_id, setbrand_id] = useState("");
+  const [model_id, setmodel_id] = useState("");
+  const [city_id, setcity_id] = useState("");
+  const [category_id, setcategory_id] = useState("");
+  const [location_id, setlocation_id] = useState("");
+  //attributes
+  const [color, setColor] = useState("");
+  const [year, setYear] = useState("");
+  const [seconds, setSeconds] = useState("");
+  const [speed, setSpeed] = useState("");
+  const [maxpeople, setMaxpeople] = useState("");
+  const [motor, setMotor] = useState("");
+  const [transmission, setTransmission] = useState("");
+  const [driverSide, setDriverSide] = useState("");
+  const [petrol, setPetrol] = useState("");
+  const [LimitPerDay, setLimitPerDay] = useState("");
+  const [deposit, setDeposit] = useState("");
+  const [pProtection, setPProtection] = useState("");
+  const [priceA, setPriceA] = useState("");
+  const [priceU, setPriceU] = useState("");
+  const [priceAE, setPriceAE] = useState("");
+  const [priceUS, setPriceUS] = useState("");
+  const [inclusive, setInclusive] = useState(false);
+  const [image1, setImage1] = useState(null);
+  const [image2, setImage2] = useState(null);
+  const [image3, setImage3] = useState(null);
+
+  const handleInclusive = (e) => {
+    setInclusive(e.target.checked);
+  };
+
+  useEffect(() => {
+    async function GetBase() {
+      try {
+        const response = await axios.get(
+          `https://autoapi.dezinfeksiyatashkent.uz/api/categories`
+        );
+        if (response.data?.success) {
+          setGetCategories(response.data.data);
+        } else {
+          toast.warning("No data", { autoClose: 1500 });
+        }
+      } catch (error) {
+        toast.error("Failed to fetch categories", { autoClose: 1500 });
+      }
+
+      try {
+        const response = await axios.get(
+          `https://autoapi.dezinfeksiyatashkent.uz/api/brands`
+        );
+        if (response.data?.success) {
+          setGetBrand(response.data.data);
+        } else {
+          toast.warning("No data", { autoClose: 1500 });
+        }
+      } catch (error) {
+        toast.error("Failed to fetch categories", { autoClose: 1500 });
+      }
+
+      try {
+        const response = await axios.get(
+          `https://autoapi.dezinfeksiyatashkent.uz/api/models`
+        );
+        if (response.data?.success) {
+          setGetModel(response.data.data);
+        } else {
+          toast.warning("No data", { autoClose: 1500 });
+        }
+      } catch (error) {
+        toast.error("Failed to fetch categories", { autoClose: 1500 });
+      }
+
+      try {
+        const response = await axios.get(
+          `https://autoapi.dezinfeksiyatashkent.uz/api/locations`
+        );
+        if (response.data?.success) {
+          setGetLocation(response.data.data);
+        } else {
+          toast.warning("No data", { autoClose: 1500 });
+        }
+      } catch (error) {
+        toast.error("Failed to fetch categories", { autoClose: 1500 });
+      }
+
+      try {
+        const response = await axios.get(
+          `https://autoapi.dezinfeksiyatashkent.uz/api/cities`
+        );
+        if (response.data?.success) {
+          setGetCity(response.data.data);
+        } else {
+          toast.warning("No data", { autoClose: 1500 });
+        }
+      } catch (error) {
+        toast.error("Failed to fetch categories", { autoClose: 1500 });
+      }
+    }
+    GetBase();
+  }, [location === "/cars"]);
+
   const handleModalClose = () => {
     setIsModalOpen(false);
     resetForm();
@@ -99,6 +206,31 @@ const Table = () => {
     setCitiesName("");
     setCitiesText("");
     setSelectedBase(null);
+    setColor("");
+    setYear("");
+    setSeconds("");
+    setSpeed("");
+    setMaxpeople("");
+    setMotor("");
+    setTransmission("");
+    setDriverSide("");
+    setPetrol("");
+    setLimitPerDay("");
+    setDeposit("");
+    setPProtection("");
+    setPriceA("");
+    setPriceU("");
+    setPriceAE("");
+    setPriceUS("");
+    setInclusive("");
+    setImage1(null);
+    setImage2(null);
+    setImage3(null);
+    setbrand_id("");
+    setmodel_id("");
+    setcity_id("");
+    setlocation_id("");
+    setcategory_id("");
   };
 
   const handleEditClick = (category) => {
@@ -117,6 +249,32 @@ const Table = () => {
     } else if (location === "/locations") {
       setCitiesName(category?.name);
       setCitiesText(category?.text);
+    } else if (location === "/cars") {
+      setbrand_id(category?.brand_id);
+      setmodel_id(category?.model_id);
+      setcity_id(category?.city_id);
+      setlocation_id(category?.location_id);
+      setcategory_id(category?.category_id);
+      setColor(category?.color);
+      setYear(category?.year);
+      setSeconds(category?.seconds);
+      setSpeed(category?.max_speed);
+      setMaxpeople(category?.max_people);
+      setMotor(category?.motor);
+      setTransmission(category?.transmission);
+      setDriverSide(category?.drive_side);
+      setPetrol(category?.petrol);
+      setLimitPerDay(category?.limitperday);
+      setDeposit(category?.deposit);
+      setPProtection(category?.premium_protection);
+      setPriceA(category?.price_in_aed);
+      setPriceU(category?.price_in_usd);
+      setPriceAE(category?.price_in_aed_sale);
+      setPriceUS(category?.price_in_usd_sale);
+      setInclusive(category?.inclusive);
+      setImage1(category?.cover);
+      setImage2(category?.cover);
+      setImage3(category?.cover);
     }
 
     setIsEditModalOpen(true);
@@ -134,6 +292,32 @@ const Table = () => {
         ? !citiesName || !citiesText || !uploadImage
         : location === "/locations"
         ? !citiesName || !citiesText || !uploadImage
+        : location === "/cars"
+        ? !model_id ||
+          !brand_id ||
+          !city_id ||
+          !category_id ||
+          !location_id ||
+          !color ||
+          !year ||
+          !seconds ||
+          !speed ||
+          !maxpeople ||
+          !motor ||
+          !transmission ||
+          !driverSide ||
+          !petrol ||
+          !LimitPerDay ||
+          !deposit ||
+          !pProtection ||
+          !priceA ||
+          !priceU ||
+          !priceAE ||
+          !priceUS ||
+          !inclusive ||
+          !image1 ||
+          !image2 ||
+          !image3
         : null
     ) {
       toast.error("All fields are required!", { autoClose: 1500 });
@@ -159,6 +343,32 @@ const Table = () => {
       formData.append("name", citiesName);
       formData.append("text", citiesText);
       formData.append("images", uploadImage);
+    } else if (location === "/cars") {
+      formData.append("brand_id", brand_id);
+      formData.append("model_id", model_id);
+      formData.append("city_id", city_id);
+      formData.append("color", color);
+      formData.append("year", year);
+      formData.append("seconds", seconds);
+      formData.append("category_id", category_id);
+      formData.append("images", image1);
+      formData.append("images", image2);
+      formData.append("max_speed", speed);
+      formData.append("max_people", maxpeople);
+      formData.append("transmission", transmission);
+      formData.append("motor", motor);
+      formData.append("drive_side", driverSide);
+      formData.append("petrol", petrol);
+      formData.append("limitperday", LimitPerDay);
+      formData.append("deposit", deposit);
+      formData.append("premium_protection", pProtection);
+      formData.append("price_in_aed", priceA);
+      formData.append("price_in_usd", priceU);
+      formData.append("price_in_aed_sale", priceAE);
+      formData.append("price_in_usd_sale", priceUS);
+      formData.append("location_id", location_id);
+      formData.append("inclusive", inclusive);
+      formData.append("cover", image3);
     }
 
     const token = localStorage.getItem("token");
@@ -193,6 +403,32 @@ const Table = () => {
         ? !citiesName || !citiesText
         : location === "/locations"
         ? !citiesName || !citiesText
+        : location === "/cars"
+        ? !model_id ||
+          !brand_id ||
+          !city_id ||
+          !category_id ||
+          !location_id ||
+          !color ||
+          !year ||
+          !seconds ||
+          !speed ||
+          !maxpeople ||
+          !motor ||
+          !transmission ||
+          !driverSide ||
+          !petrol ||
+          !LimitPerDay ||
+          !deposit ||
+          !pProtection ||
+          !priceA ||
+          !priceU ||
+          !priceAE ||
+          !priceUS ||
+          !inclusive ||
+          !image1 ||
+          !image2 ||
+          !image3
         : null
     ) {
       toast.error("Name fields are required!", { autoClose: 1500 });
@@ -214,9 +450,36 @@ const Table = () => {
     } else if (location === "/locations") {
       formData.append("name", citiesName);
       formData.append("text", citiesText);
+    } else if (location === "/cars") {
+      formData.append("brand_id", brand_id);
+      formData.append("model_id", model_id);
+      formData.append("city_id", city_id);
+      formData.append("color", color);
+      formData.append("year", year);
+      formData.append("seconds", seconds);
+      formData.append("category_id", category_id);
+      formData.append("max_speed", speed);
+      formData.append("max_people", maxpeople);
+      formData.append("transmission", transmission);
+      formData.append("motor", motor);
+      formData.append("drive_side", driverSide);
+      formData.append("petrol", petrol);
+      formData.append("limitperday", LimitPerDay);
+      formData.append("deposit", deposit);
+      formData.append("premium_protection", pProtection);
+      formData.append("price_in_aed", priceA);
+      formData.append("price_in_usd", priceU);
+      formData.append("price_in_aed_sale", priceAE);
+      formData.append("price_in_usd_sale", priceUS);
+      formData.append("location_id", location_id);
+      formData.append("inclusive", inclusive);
     }
-    if (uploadImage) {
+    if (uploadImage && location !== "/cars") {
       formData.append("images", uploadImage);
+    } else if (location === cars) {
+      formData.append("images", image1);
+      formData.append("images", image2);
+      formData.append("cover", image3);
     }
 
     const token = localStorage.getItem("token");
@@ -549,6 +812,9 @@ const Table = () => {
                       id=""
                       onChange={(e) => setModelsBrandID(e.target.value)}
                     >
+                      <option value="" disabled selected>
+                        Choose Brand
+                      </option>
                       {brands.map((elem) => (
                         <option value={elem?.id}>{elem?.title}</option>
                       ))}
@@ -606,6 +872,247 @@ const Table = () => {
                       type="file"
                       accept="image/*, .png/*, .jpg/*, .jpeg/*"
                       onChange={(e) => setUploadImage(e.target.files[0])}
+                    />
+                  </label>
+                </>
+              ) : location === "/cars" ? (
+                <>
+                  <label>
+                    Category :
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setcategory_id(e.target.value)}
+                    >
+                      <option value="" disabled selected>
+                        Choose Category
+                      </option>
+                      {getCategories.map((elem) => (
+                        <option value={elem?.id}>{elem?.name_en}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
+                  <label>
+                    Brand :
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setbrand_id(e.target.value)}
+                    >
+                      <option value="" disabled selected>
+                        Choose Brand
+                      </option>
+                      {getBrand.map((elem) => (
+                        <option value={elem?.id}>{elem?.title}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
+                  <label>
+                    Model :
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setmodel_id(e.target.value)}
+                    >
+                      <option value="" disabled selected>
+                        Choose Model
+                      </option>
+                      {getModel.map((elem) => (
+                        <option value={elem?.id}>{elem?.name}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
+                  <label>
+                    Location :
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setlocation_id(e.target.value)}
+                    >
+                      <option value="" disabled selected>
+                        Choose Location
+                      </option>
+                      {getLocation.map((elem) => (
+                        <option value={elem?.id}>{elem?.name}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
+                  <label>
+                    City :
+                    <select
+                      name=""
+                      id=""
+                      onChange={(e) => setcity_id(e.target.value)}
+                    >
+                      <option value="" disabled selected>
+                        Choose City
+                      </option>
+                      {getCity.map((elem) => (
+                        <option value={elem?.id}>{elem?.name}</option>
+                      ))}
+                    </select>{" "}
+                  </label>
+                  <label>
+                    Color :
+                    <input
+                      type="text"
+                      value={color}
+                      onChange={(e) => setColor(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Year :
+                    <input
+                      type="number"
+                      value={year}
+                      onChange={(e) => setYear(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Seconds :
+                    <input
+                      type="number"
+                      value={seconds}
+                      onChange={(e) => setSeconds(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Speed :
+                    <input
+                      type="number"
+                      value={speed}
+                      onChange={(e) => setSpeed(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Max people :
+                    <input
+                      type="number"
+                      value={maxpeople}
+                      onChange={(e) => setMaxpeople(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Motor :
+                    <input
+                      type="number"
+                      value={motor}
+                      onChange={(e) => setMotor(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Transmission :
+                    <input
+                      type="number"
+                      value={transmission}
+                      onChange={(e) => setTransmission(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Driver Side :
+                    <input
+                      type="text"
+                      value={driverSide}
+                      onChange={(e) => setDriverSide(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Petrol :
+                    <input
+                      type="number"
+                      value={petrol}
+                      onChange={(e) => setPetrol(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Limit Per Day :
+                    <input
+                      type="number"
+                      value={LimitPerDay}
+                      onChange={(e) => setLimitPerDay(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Deposit :
+                    <input
+                      type="number"
+                      value={deposit}
+                      onChange={(e) => setDeposit(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Premium Protection :
+                    <input
+                      type="number"
+                      value={pProtection}
+                      onChange={(e) => setPProtection(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Price in AED :
+                    <input
+                      type="number"
+                      value={priceA}
+                      onChange={(e) => setPriceA(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Price in USD :
+                    <input
+                      type="number"
+                      value={priceU}
+                      onChange={(e) => setPriceU(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Price in AED(Otd) :
+                    <input
+                      type="number"
+                      value={priceAE}
+                      onChange={(e) => setPriceAE(e.target.value)}
+                    />
+                  </label>
+                  <label>
+                    Price in USD(Otd) :
+                    <input
+                      type="number"
+                      value={priceUS}
+                      onChange={(e) => setPriceUS(e.target.value)}
+                    />
+                  </label>
+                  <label className="inclusive-toggle">
+                    Inclusive
+                    <div className="switch">
+                      <input
+                        type="checkbox"
+                        value={inclusive}
+                        onChange={handleInclusive}
+                      />
+                      <span className="slider"></span>
+                    </div>
+                  </label>
+                  <label>
+                    Upload Car Image:
+                    <input
+                      type="file"
+                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                      onChange={(e) => setImage1(e.target.files[0])}
+                    />
+                  </label>
+                  <label>
+                    Upload the main image:
+                    <input
+                      type="file"
+                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                      onChange={(e) => setImage2(e.target.files[0])}
+                    />
+                  </label>
+                  <label>
+                    Upload the cover image:
+                    <input
+                      type="file"
+                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                      onChange={(e) => setImage3(e.target.files[0])}
                     />
                   </label>
                 </>
@@ -624,147 +1131,375 @@ const Table = () => {
       )}
 
       {isEditModalOpen && (
-        <div className="modal-overlay" onClick={handleEditModalClose}>
-          <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <div className="modal-header">
-              <h3>Edit {location.slice(1).toUpperCase()}</h3>
-              <button className="close-btn" onClick={handleEditModalClose}>
-                <IoCloseCircleOutline />
-              </button>
-            </div>
-            <div className="modal-body">
-              {location === "/categories" ? (
-                <>
-                  <label>
-                    Name (EN):
-                    <input
-                      type="text"
-                      value={nameEn}
-                      onChange={(e) => setNameEn(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Name (RU):
-                    <input
-                      type="text"
-                      value={nameRu}
-                      onChange={(e) => setNameRu(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Upload Image:
-                    <input
-                      type="file"
-                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
-                      onChange={(e) => setUploadImage(e.target.files[0])}
-                    />
-                  </label>
-                </>
-              ) : location === "/brands" ? (
-                <>
-                  <label>
-                    Model:
-                    <input
-                      type="text"
-                      value={modal}
-                      onChange={(e) => setModal(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Upload Image:
-                    <input
-                      type="file"
-                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
-                      onChange={(e) => setUploadImage(e.target.files[0])}
-                    />
-                  </label>
-                </>
-              ) : location === "/models" ? (
-                <>
-                  <label>
-                    Model Name :
-                    <input
-                      type="text"
-                      value={modelsName}
-                      onChange={(e) => setModelsName(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Brand Name:
-                    <select
-                      name=""
-                      id=""
-                      onChange={(e) => setModelsBrandID(e.target.value)}
-                    >
-                      {brands.map((elem) => (
-                        <option value={elem?.id}>{elem?.title}</option>
-                      ))}
-                    </select>{" "}
-                  </label>
-                </>
-              ) : location === "/cities" ? (
-                <>
-                  <label>
-                    Name:
-                    <input
-                      type="text"
-                      value={citiesName}
-                      onChange={(e) => setCitiesName(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Text:
-                    <input
-                      type="text"
-                      value={citiesText}
-                      onChange={(e) => setCitiesText(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Upload Image:
-                    <input
-                      type="file"
-                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
-                      onChange={(e) => setUploadImage(e.target.files[0])}
-                    />
-                  </label>
-                </>
-              ) : location === "/locations" ? (
-                <>
-                  <label>
-                    Name:
-                    <input
-                      type="text"
-                      value={citiesName}
-                      onChange={(e) => setCitiesName(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Text:
-                    <input
-                      type="text"
-                      value={citiesText}
-                      onChange={(e) => setCitiesText(e.target.value)}
-                    />
-                  </label>
-                  <label>
-                    Upload Image:
-                    <input
-                      type="file"
-                      accept="image/*, .png/*, .jpg/*, .jpeg/*"
-                      onChange={(e) => setUploadImage(e.target.files[0])}
-                    />
-                  </label>
-                </>
-              ) : null}
-            </div>
-            <div className="modal-footer">
-              <button className="cancel-btn" onClick={handleEditModalClose}>
-                Cancel
-              </button>
-              <button className="submit-btn" onClick={handleEditSubmit}>
-                Submit
-              </button>
+        <div className="modal__container">
+          <div className="modal-overlay" onClick={handleEditModalClose}>
+            <div className="modal" onClick={(e) => e.stopPropagation()}>
+              <div className="modal-header">
+                <h3>Edit {location.slice(1).toUpperCase()}</h3>
+                <button className="close-btn" onClick={handleEditModalClose}>
+                  <IoCloseCircleOutline />
+                </button>
+              </div>
+              <div className="modal-body">
+                {location === "/categories" ? (
+                  <>
+                    <label>
+                      Name (EN):
+                      <input
+                        type="text"
+                        value={nameEn}
+                        onChange={(e) => setNameEn(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Name (RU):
+                      <input
+                        type="text"
+                        value={nameRu}
+                        onChange={(e) => setNameRu(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Upload Image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setUploadImage(e.target.files[0])}
+                      />
+                    </label>
+                  </>
+                ) : location === "/brands" ? (
+                  <>
+                    <label>
+                      Model:
+                      <input
+                        type="text"
+                        value={modal}
+                        onChange={(e) => setModal(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Upload Image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setUploadImage(e.target.files[0])}
+                      />
+                    </label>
+                  </>
+                ) : location === "/models" ? (
+                  <>
+                    <label>
+                      Model Name :
+                      <input
+                        type="text"
+                        value={modelsName}
+                        onChange={(e) => setModelsName(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Brand Name:
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setModelsBrandID(e.target.value)}
+                      >
+                        {brands.map((elem) => (
+                          <option value={elem?.id}>{elem?.title}</option>
+                        ))}
+                      </select>{" "}
+                    </label>
+                  </>
+                ) : location === "/cities" ? (
+                  <>
+                    <label>
+                      Name:
+                      <input
+                        type="text"
+                        value={citiesName}
+                        onChange={(e) => setCitiesName(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Text:
+                      <input
+                        type="text"
+                        value={citiesText}
+                        onChange={(e) => setCitiesText(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Upload Image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setUploadImage(e.target.files[0])}
+                      />
+                    </label>
+                  </>
+                ) : location === "/locations" ? (
+                  <>
+                    <label>
+                      Name:
+                      <input
+                        type="text"
+                        value={citiesName}
+                        onChange={(e) => setCitiesName(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Text:
+                      <input
+                        type="text"
+                        value={citiesText}
+                        onChange={(e) => setCitiesText(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Upload Image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setUploadImage(e.target.files[0])}
+                      />
+                    </label>
+                  </>
+                ) : location === "/cars" ? (
+                  <>
+                    <label>
+                      Category :
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setcategory_id(e.target.value)}
+                      >
+                        {getCategories.map((elem) => (
+                          <option value={elem?.id}>{elem?.name_en}</option>
+                        ))}
+                      </select>{" "}
+                    </label>
+                    <label>
+                      Brand :
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setbrand_id(e.target.value)}
+                      >
+                        {getBrand.map((elem) => (
+                          <option value={elem?.id}>{elem?.title}</option>
+                        ))}
+                      </select>{" "}
+                    </label>
+                    <label>
+                      Model :
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setmodel_id(e.target.value)}
+                      >
+                        {getModel.map((elem) => (
+                          <option value={elem?.id}>{elem?.name}</option>
+                        ))}
+                      </select>{" "}
+                    </label>
+                    <label>
+                      Location :
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setlocation_id(e.target.value)}
+                      >
+                        {getLocation.map((elem) => (
+                          <option value={elem?.id}>{elem?.name}</option>
+                        ))}
+                      </select>{" "}
+                    </label>
+                    <label>
+                      City :
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setcity_id(e.target.value)}
+                      >
+                        {getCity.map((elem) => (
+                          <option value={elem?.id}>{elem?.name}</option>
+                        ))}
+                      </select>{" "}
+                    </label>
+                    <label>
+                      Color :
+                      <input
+                        type="text"
+                        value={color}
+                        onChange={(e) => setColor(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Year :
+                      <input
+                        type="number"
+                        value={year}
+                        onChange={(e) => setYear(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Seconds :
+                      <input
+                        type="number"
+                        value={seconds}
+                        onChange={(e) => setSeconds(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Speed :
+                      <input
+                        type="number"
+                        value={speed}
+                        onChange={(e) => setSpeed(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Max people :
+                      <input
+                        type="number"
+                        value={maxpeople}
+                        onChange={(e) => setMaxpeople(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Motor :
+                      <input
+                        type="number"
+                        value={motor}
+                        onChange={(e) => setMotor(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Transmission :
+                      <input
+                        type="number"
+                        value={transmission}
+                        onChange={(e) => setTransmission(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Driver Side :
+                      <input
+                        type="text"
+                        value={driverSide}
+                        onChange={(e) => setDriverSide(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Petrol :
+                      <input
+                        type="number"
+                        value={petrol}
+                        onChange={(e) => setPetrol(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Limit Per Day :
+                      <input
+                        type="number"
+                        value={LimitPerDay}
+                        onChange={(e) => setLimitPerDay(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Deposit :
+                      <input
+                        type="number"
+                        value={deposit}
+                        onChange={(e) => setDeposit(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Premium Protection :
+                      <input
+                        type="number"
+                        value={pProtection}
+                        onChange={(e) => setPProtection(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Price in AED :
+                      <input
+                        type="number"
+                        value={priceA}
+                        onChange={(e) => setPriceA(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Price in USD :
+                      <input
+                        type="number"
+                        value={priceU}
+                        onChange={(e) => setPriceU(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Price in AED(Otd) :
+                      <input
+                        type="number"
+                        value={priceAE}
+                        onChange={(e) => setPriceAE(e.target.value)}
+                      />
+                    </label>
+                    <label>
+                      Price in USD(Otd) :
+                      <input
+                        type="number"
+                        value={priceUS}
+                        onChange={(e) => setPriceUS(e.target.value)}
+                      />
+                    </label>
+                    <label className="inclusive-toggle">
+                      Inclusive
+                      <div className="switch">
+                        <input
+                          type="checkbox"
+                          value={inclusive}
+                          onChange={handleInclusive}
+                        />
+                        <span className="slider"></span>
+                      </div>
+                    </label>
+                    <label>
+                      Upload Car Image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setImage1(e.target.files[0])}
+                      />
+                    </label>
+                    <label>
+                      Upload the main image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setImage2(e.target.files[0])}
+                      />
+                    </label>
+                    <label>
+                      Upload the cover image:
+                      <input
+                        type="file"
+                        accept="image/*, .png/*, .jpg/*, .jpeg/*"
+                        onChange={(e) => setImage3(e.target.files[0])}
+                      />
+                    </label>
+                  </>
+                ) : null}
+              </div>
+              <div className="modal-footer">
+                <button className="cancel-btn" onClick={handleEditModalClose}>
+                  Cancel
+                </button>
+                <button className="submit-btn" onClick={handleEditSubmit}>
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         </div>
