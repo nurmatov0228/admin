@@ -34,6 +34,6 @@ body {
 }
 
 .router {
-  min-height: 85vh;
+  min-height: calc(85vh + 5px);
   box-sizing: border-box;
 }
