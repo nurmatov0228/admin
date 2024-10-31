@@ -476,11 +476,12 @@ const Table = () => {
     }
     if (uploadImage && location !== "/cars") {
       formData.append("images", uploadImage);
-    } else if (location === cars) {
-      formData.append("images", image1);
-      formData.append("images", image2);
-      formData.append("cover", image3);
     }
+    // else if (location === cars) {
+    //   formData.append("images", image1);
+    //   formData.append("images", image2);
+    //   formData.append("cover", image3);
+    // }
 
     const token = localStorage.getItem("token");
     try {
