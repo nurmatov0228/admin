@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
   return (
-    <div className="app-container">
+    <div className="app-container container">
       <Layout />
     </div>
   );
