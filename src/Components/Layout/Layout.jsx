@@ -12,7 +12,7 @@ const Layout = () => {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (token?.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey")) {
+    if (token?.includes("fake-jwt-token")) {
       navigate("/home");
     } else {
       navigate("/");
@@ -20,7 +20,7 @@ const Layout = () => {
   }, [token]);
 
   const body = () => {
-    if (token?.includes("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.ey")) {
+    if (token?.includes("fake-jwt-token")) {
       return (
         <>
           <div className="main__container">
